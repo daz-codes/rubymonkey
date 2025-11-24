@@ -31,7 +31,7 @@ Then just add either `require "rubymonkey"` or `import "rubymonkey"` to the top 
 In general, if you know the Ruby methods you should be able to use them in almost the same way, with a few slight changes:
 
 * Blocks change to arrow functions
-* JavaScript does not support appending symbols to the end of function names, so Boolean methods can't end in a `?`, so these have `is` prepended to them.
+* JavaScript does not support appending symbols to the end of function names, so Boolean methods can't end in a `?`, so these have 2 versions, one without the `?` at the end and another with `is` prepended to the beginning.
 
 So for example, this Ruby:
 
@@ -39,10 +39,15 @@ So for example, this Ruby:
 [1,2,3].count{ |n| n.odd? }
 ```
 
-Would be written in JavaScript as:
+Would be written in Ruby Monkey as either of the following:
 
 ```javascript
 [1,2,3].count( n => n.isOdd )
+```
+
+
+```javascript
+[1,2,3].count( n => n.odd )
 ```
 
 ## Template to Func
@@ -57,7 +62,7 @@ JavaScript doesn't let you use `&` and doesn't have symbol literals, but you can
 
 # Number Methods
 
-## `number.even`
+## `number.even` & `number.isEven`
 
 Checks if the number is even.
 
@@ -66,7 +71,7 @@ Checks if the number is even.
 (5).even;  // false
 ```
 
-## `number.odd`
+## `number.odd` & `number.isOdd`
 
 Checks if the number is odd.
 
@@ -141,7 +146,7 @@ Checks if the number is prime.
 (9).prime;  // false
 ```
 
-## `number.integer`
+## `number.integer` and `number.isInteger`
 
 Checks if the number is an integer.
 
@@ -150,7 +155,7 @@ Checks if the number is an integer.
 (10).integer;    // true
 ```
 
-## `number.positive`
+## `number.positive` & `number.isPositive`
 
 Checks if the number is positive.
 
@@ -159,7 +164,7 @@ Checks if the number is positive.
 (-3).positive;  // false
 ```
 
-## `number.negative`
+## `number.negative` & `number.isNegative`
 
 Checks if the number is negative.
 
@@ -168,7 +173,7 @@ Checks if the number is negative.
 (5).negative;    // false
 ```
 
-## `number.zero`
+## `number.zero` & `number.isZero`
 
 Checks if the number is zero.
 
