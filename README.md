@@ -464,20 +464,34 @@ Checks if the string ends with the given substring.
 "hello world".ends_with("world");  // true
 ```
 
-## `string.first(n)`
-Returns the first n characters of the string. If n is omitted, returns the first character.
+## `string.first`
+Returns the first character of the string.
+
+```javascript
+"hello".first;   // "h"
+```
+
+## `string.first_(n)`
+Returns the first n characters of the string.
 
 ```javascript
 "hello".first(2);  // "he"
-"hello".first();   // "h"
+"hello".first(5);   // "hello"
 ```
 
-## `string.last(n)`
+## `string.last`
+Returns the last character of the string.
+
+```javascript
+"hello".last;   // "o"
+```
+
+## `string.last_(n)`
 Returns the last n characters of the string. If n is omitted, returns the last character.
 
 ```javascript
-"hello".last(2);  // "lo"
-"hello".last();   // "o"
+"hello".last_(2);  // "lo"
+"hello".last_(5);   // "hello"
 ```
 
 # Array Methods
