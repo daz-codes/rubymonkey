@@ -278,13 +278,50 @@ Computes the least common multiple (LCM) of the number and n.
 (4).lcm(6);  // 12
 ```
 
-## `number.between(a, b)`
+## `number.between(a, b)` & `number.isBetween(a,b)`
 
 Checks if the number is between a and b (inclusive).
 
 ```javascript
 (5).between(1, 10);  // true
 (15).between(1, 10); // false
+```
+
+## `number.eql(n)`
+
+Checks if the number is strictly equal to n.
+
+```javascript
+(5).eql(5); // true
+(5).eql(3); // false
+```
+
+## `number.multiple_of(n)` & `number.divisble_by(n)`
+
+Checks if the number is a multiple of `n`.
+
+```javascript
+(10).multiple_of(5);   // true
+(10).multiple_of(3);   // false
+```
+
+```javascript
+(10).divisible_by(5);  // true
+(10).divisible_by(3);  // false
+```
+
+## `number.divisor_of(n)` & `number.factor_of(n)`
+
+Checks if the number is a divisor (factor) of `n`.
+
+```javascript
+(5).divisor_of(10); // true
+(3).divisor_of(10); // false
+```
+
+```javascript
+(5).factor_of(10);  // true
+(3).factor_of(10);  // false
 ```
 
 # String Methods
