@@ -23,10 +23,10 @@ Now you can write JS code like this:
 ## Usage
 
 ```bash
-npm install rubydoo
+npm install rubymonkey
 ```
 
-Then just add either `require "rubydoo"` or `import "rubydoo"` to the top of any JS file and suddenly coding in JS becomes a lot more fun and productive!
+Then just add either `require "rubymonkey"` or `import "rubymonkey"` to the top of any JS file and suddenly coding in JS becomes a lot more fun and productive!
 
 In general, if you know the Ruby methods you should be able to use them in almost the same way, with a few slight changes:
 
@@ -45,7 +45,7 @@ Would be written in JavaScript as:
 [1,2,3].count( n => n.isOdd )
 ```
 
-## Temple to Func
+## Template to Func
 
 Ruby has this really nice syntax to make calling methods on objects easier, so instead of `[1,2,3].map { |n| n.next }` you can just write `[1,2,3].map(&:next)`
 
