@@ -949,3 +949,264 @@ Returns a new object excluding specified keys.
 ```javascript
 ({ a: 1, b: 2, c: 3 }).except("b", "c");  // { a: 1 }
 ```
+
+## Date Utilities Library
+
+A lightweight set of extensions for working with dates, durations, and date ranges based on the Rails helper methods.
+Includes:
+
+* DateRange — iterate or inspect ranges of dates
+* Duration — express time spans like (3).days or (2).months
+* Prototype helpers on Date for navigation, ranges, and comparisons
+* Convenience accessors like Date.today, Date.current, date.isToday
+* Iterable ranges and unit-based iteration (each_day, each_month, etc.)
+
+## DateRange
+
+### `range.includes(date)`
+
+Returns true if the date falls inside the range (inclusive).
+
+```javascript
+range.includes(Date.today); // true
+```
+
+### `range.each(callback, step = 1)`
+
+Iterates day-by-day through the range, calling the callback for each date.
+
+step controls the day increment.
+
+```javascript
+range.each(d => console.log(d));
+range.each(d => console.log(d), 2); // Every 2 days
+```
+
+### `range.each_day(callback, step = 1)`
+
+Alias for .each.
+
+Iterates through days in the range.
+
+```javascript
+range.each_day(d => console.log(d));
+```
+
+### `range.each_week(callback, step = 1)`
+
+Iterates through the range in weekly steps.
+
+```javascript
+range.each_week(d => console.log(d)); // Every 7 days
+range.each_week(d => console.log(d), 2); // Every 14 days
+```
+
+### `range.each_month(callback, step = 1)`
+
+Iterates month-to-month, preserving the original day when possible
+(and adjusting for month length differences automatically).
+
+```javascript
+range.each_month(d => console.log(d));
+```
+
+### `range.each_quarter(callback, step = 1)`
+
+Iterates in increments of 3 months.
+
+```javascript
+range.each_quarter(d => console.log(d));
+```
+
+### `range.each_year(callback, step = 1)`
+
+Iterates year-to-year through the range.
+
+```javascript
+range.each_year(d => console.log(d));
+```
+
+## Duration
+
+### `new Duration({ years, months, weeks, days, hours, minutes, seconds })`
+
+Creates a duration object.
+
+```javascript
+const d = new Duration({ days: 3, hours: 5 });
+```
+
+### `duration.ago`
+
+Shifts backward from Date.current.
+
+```javascript
+(3).days.ago; // 3 days before now
+```
+
+### `duration.since(date)`
+
+Moves forward from the given date.
+
+```javascript
+(2).weeks.since(Date.today);
+```
+
+### `duration.before(date)`
+
+Moves backward from the given date.
+
+```javascript
+(1).month.before(Date.today);
+```
+
+### `duration.after(date)`
+
+Alias for `duration.since`.
+
+```javascript
+(6).hours.after(Date.current);
+```
+
+### `duration.until(date)`
+
+Returns the date minus the duration.
+
+```javascript
+(10).days.until(Date.today);
+```
+
+### `duration.from_now`
+
+Shifts forward from Date.current.
+
+```javascript
+(30).minutes.from_now;
+```
+
+### `duration.advance_from(date)`
+
+Applies all duration components to the given date.
+
+```javascript
+new Duration({ days: 1, months: 1 }).advance_from(Date.today);
+```
+
+## Number Duration Extensions
+
+All numbers gain convenience getters for generating a Duration:
+
+```javascript
+second, seconds
+minute, minutes
+hour, hours
+day, days
+week, weeks
+month, months
+year, years
+```
+
+Example usage:
+
+```javascript
+(3).days;  // Duration { days: 3 }
+(1).year;  // Duration { years: 1 }
+(2).weeks.from_now;
+```
+
+## Date Range Helpers
+
+### `date.all_day`, `date.all_week`, `date.all_month`, `date.all_quarter`, `date.all_year`
+
+Returns a DateRange covering the full period.
+
+```javascript
+Date.today.all_week.each(d => console.log(d));
+```
+
+### `date.at_beginning_of_day`, `date.at_beginning_of_month`, ... `date.at_end_of_day`, `date.at_end_of_month`, ...
+
+Convenient accessors for the start or end of a period.
+
+```javascript
+Date.today.at_beginning_of_month;
+Date.today.at_end_of_year;
+```
+
+## Named Day Predicates
+
+```javascript
+date.isYesterday, date.isToday, date.isTomorrow
+```
+
+Checks if the date falls within the corresponding day.
+
+```javascript
+Date.today.isToday; // true
+```
+
+## Static Date Helpers
+
+```javascript
+Date.current
+```
+
+Returns the current UTC date with full time precision.
+
+```javascript
+Date.current;
+Date.today
+```
+
+Returns today's UTC date at midnight.
+
+```javascript
+Date.today;
+Date.yesterday
+Date.tomorrow
+```
+
+UTC midnight versions of today, yesterday and tomorrow.
+
+
+## Date Prototype Methods
+
+### `date.yesterday`
+
+Returns the previous day at the beginning of day.
+
+```javascript
+Date.current.yesterday;
+```
+
+### `date.tomorrow`
+
+Returns the next day at the beginning of day.
+
+```javascript
+Date.current.tomorrow;
+```
+
+### `date.days_in_month`
+
+Returns the number of days in the current month.
+
+```javascript
+new Date(Date.UTC(2024, 1, 1)).days_in_month; // 29
+```
+
+### `date.advance(duration)`
+
+Returns a new date advanced by the given duration.
+
+```javascript
+Date.today.advance({ weeks: 1 });
+```
+
+### `date.change({ year, month, day, hour, minute, second, ms })`
+
+Returns a new date with selected UTC fields replaced.
+
+```javascript
+Date.current.change({ hour: 0, minute: 0 });
+```
