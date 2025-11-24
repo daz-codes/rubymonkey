@@ -739,6 +739,68 @@ Returns a merged array without duplicates.
 
 ```javascript
 [1, 2].union([2, 3], [3, 4]); // [1, 2, 3, 4]
+
+## `array.dig(...indices)`
+
+Safely retrieves a nested value using a sequence of keys or indexes.
+
+Returns undefined if any step in the chain is missing.
+
+```javascript
+[ { a: { b: 10 } } ].dig(0, "a", "b"); // 10
+[ { a: {} } ].dig(0, "a", "c"); // undefined
+```
+
+### `array.eql(arr)`
+
+Deep-compares two arrays for equality.
+
+Uses an element’s custom .eql method if present, otherwise strict equality (===).
+
+```javascript
+[1, 2, 3].eql([1, 2, 3]); // true
+[1, 2, 3].eql([1, 2, "3"]); // false
+```
+
+### `array.filter_map(func)`
+
+Maps the array with func and removes null/undefined values (.compact).
+
+```javascript
+[1, 2, 3].filter_map(n => (n % 2 === 0 ? n * 2 : null)); 
+// [4]
+```
+
+### `array.each_with_object(obj, func)`
+
+Iterates over the array and yields each element with the provided object.
+
+```javascript
+const acc = [];
+[1, 2, 3].each_with_object(acc, (n, arr) => arr.push(n * 2));
+acc; // [2, 4, 6]
+```
+
+### `array.first_(n)`
+
+Returns the first n elements of the array.
+
+If n < 1, returns an empty array.
+
+```javascript
+[1, 2, 3].first_(2);   // [1,2]
+[1, 2, 3].first_(3);  // [1, 2, 3]
+```
+
+### `array.last_(n)`
+
+Returns the last n elements of the array.
+
+If n < 1, returns an empty array.
+
+```javascript
+[1, 2, 3].last_(2);   // [2, 3]
+[1, 2, 3].last_(3);  // [1, 2, 3]
 ```
 
 ## Aliases
