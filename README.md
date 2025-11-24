@@ -282,7 +282,7 @@ Checks if the number is between a and b (inclusive).
 (15).between(1, 10); // false
 ```
 
-# String Mehtods
+# String Methods
 
 ## `string.reverse`
 
