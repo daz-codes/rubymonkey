@@ -494,6 +494,15 @@ Returns the last n characters of the string. If n is omitted, returns the last c
 "hello".last_(5);   // "hello"
 ```
 
+## `string.eql(str)`
+
+Checks if the string is strictly equal to str.
+
+```javascript
+("hello").eql("hello"); // true
+("Hello!").eql("hello"); // false
+```
+
 # Array Methods
 
 ## Property Methods
