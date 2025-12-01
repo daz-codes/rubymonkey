@@ -37,10 +37,10 @@ describe("first,second,third,fourth, fifth and 42nd", function () {
 
 describe("empty", function () {
   it("should return true if the array is empty", function () {
-    assert.equal([].empty, true);
+    assert.equal([].isEmpty, true);
   });
   it("should return false if the array is not empty", function () {
-    assert.equal(arr.empty, false);
+    assert.equal(arr.isEmpty, false);
   });
 });
 
@@ -101,7 +101,7 @@ describe("to_param", function () {
 describe("any", function () {
   it("should return true if at least one of the items returns true for the function provided", function () {
     assert.equal(
-      arr.any((n) => n.even),
+      arr.any((n) => n.isEven),
       true,
     );
   });
@@ -140,7 +140,7 @@ describe("partition", function () {
 describe("count", function () {
   it("should return the number of items that return true for the function provided", function () {
     assert.equal(
-      arr.count((n) => n.even),
+      arr.count((n) => n.isEven),
       25,
     );
   });
@@ -174,6 +174,9 @@ describe("pluck", function () {
 describe("from", function () {
   it("should return an array starting from the index provided", function () {
     assert.deepStrictEqual(arr.from(45), [46, 47, 48, 49, 50]);
+  });
+  it("should return an empty array if the array is empty", function () {
+    assert.deepStrictEqual([].from(45), []);
   });
 });
 
@@ -265,6 +268,11 @@ describe("Array.prototype.rotate", () => {
     const arr = [1, 2, 3];
     assert.deepStrictEqual(arr.rotate(4), [2, 3, 1]);
   });
+
+  it("should handle empty arrays", () => {
+    const arr = [];
+    assert.deepStrictEqual(arr.rotate(4), []);
+  });
 });
 
 // Test for `zip`
@@ -343,6 +351,10 @@ describe("Array.prototype.difference", () => {
     const arr3 = [2, 3, 4];
     assert.deepStrictEqual(arr1.difference(arr2, arr3), [1]);
   });
+  it("should return the unique values in an array if no arguments are provided", () => {
+    const arr1 = [1, 2, 3];
+    assert.deepStrictEqual(arr1.difference(), [1, 2, 3]);
+  });
 });
 
 // Test for `delete_at`
@@ -385,9 +397,7 @@ describe("Array.prototype.shuffle", () => {
     const arr = [1, 2, 3, 4, 5];
     const shuffled = arr.shuffle;
     assert.notDeepStrictEqual(shuffled, arr); // Array should be shuffled
-    assert(
-      shuffled.sort().every((value, index) => value === arr.sort()[index]),
-    ); // All elements should be the same, just in different order
+    assert(shuffled.sort.every((value, index) => value === arr.sort[index])); // All elements should be the same, just in different order
   });
 
   it("should return the same array if there is only one element", () => {
@@ -462,5 +472,90 @@ describe("Array.prototype.tally", () => {
   it("should handle arrays with no repeated values", () => {
     const arr = [1, 2, 3];
     assert.deepStrictEqual(arr.tally, { 1: 1, 2: 1, 3: 1 });
+  });
+});
+
+describe("to_s", () => {
+  it("should return a string representation of the array", () => {
+    assert.equal([1, 2, 3].to_s, "[1, 2, 3]");
+  });
+  it("should handle an empty array", () => {
+    assert.equal([].to_s, "[]");
+  });
+  it("should call to_s on nested arrays", () => {
+    assert.equal([[1, 2], 3].to_s, "[[1, 2], 3]");
+  });
+});
+
+describe("sort", () => {
+  it("should return a sorted copy of the array", () => {
+    const arr = [3, 1, 2];
+    assert.deepStrictEqual(arr.sort, [1, 2, 3]);
+  });
+  it("should not modify the original array", () => {
+    const arr = [3, 1, 2];
+    arr.sort;
+    assert.deepStrictEqual(arr, [3, 1, 2]);
+  });
+});
+
+describe("sample", () => {
+  it("should return a single random element by default", () => {
+    const arr = [1, 2, 3];
+    assert(arr.includes(arr.sample()));
+  });
+  it("should return an array of n random elements", () => {
+    const arr = [1, 2, 3, 4];
+    const s = arr.sample(2);
+    assert.equal(s.length, 2);
+    s.forEach((x) => assert(arr.includes(x)));
+  });
+  it("should return all items if n > array length", () => {
+    const arr = [1, 2];
+    const s = arr.sample(5);
+    assert.deepStrictEqual(s.sort, arr);
+  });
+  it("should not modify the original array", () => {
+    const arr = [1, 2, 3];
+    arr.sample(2);
+    assert.deepStrictEqual(arr, [1, 2, 3]);
+  });
+});
+
+describe("one", () => {
+  it("should return true if exactly one element matches", () => {
+    assert.equal(
+      [1, 2, 3].one((n) => n === 2),
+      true,
+    );
+  });
+  it("should return false if none or more than one match", () => {
+    assert.equal(
+      [1, 2, 3].one((n) => n > 5),
+      false,
+    );
+    assert.equal(
+      [1, 2, 2].one((n) => n === 2),
+      false,
+    );
+  });
+  it("should work without predicate", () => {
+    assert.equal([1].one(), true);
+    assert.equal([1, 2].one(), false);
+  });
+});
+
+describe("aliases", () => {
+  it("collect should behave like map", () => {
+    assert.deepStrictEqual(
+      [1, 2, 3].collect((x) => x * 2),
+      [2, 4, 6],
+    );
+  });
+  it("all should behave like every", () => {
+    assert.equal(
+      [2, 4, 6].all((x) => x % 2 === 0),
+      true,
+    );
   });
 });

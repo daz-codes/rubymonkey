@@ -1,15 +1,15 @@
 import assert from "assert";
 import "../lib/number.js";
 
-const n = 29
-const decimal = 29.5
+const n = 29;
+const decimal = 29.5;
 
 describe("odd and even", function () {
   it("should return if a number is even", function () {
-    assert.equal(n.even, false);
+    assert.equal(n.isEven, false);
   });
   it("should return if a number is odd", function () {
-    assert.equal(n.odd, true);
+    assert.equal(n.isOdd, true);
   });
 });
 
@@ -39,34 +39,40 @@ describe("rounding", function () {
 
 describe("information about the number", function () {
   it("should return true if the number is positive", function () {
-    assert.equal(n.positive, true);
+    assert.equal(n.isPositive, true);
   });
   it("should return true if the number is negative", function () {
-    assert.equal(n.negative, false);
+    assert.equal(n.isNegative, false);
   });
   it("should return true if the number is zero", function () {
-    assert.equal(n.zero, false);
+    assert.equal(n.isZero, false);
   });
   it("should return true if the number is non-zero", function () {
-    assert.equal(n.nonzero, true);
+    assert.equal(n.isNonzero, true);
+  });
+  it("should return the number if the number is non-zero", function () {
+    assert.equal(n.nonzero, n);
+  });
+  it("should return the undefined if the number is zero", function () {
+    assert.equal((0).nonzero, undefined);
   });
   it("should return true if the number is prime", function () {
-    assert.equal(n.prime, true);
+    assert.equal(n.isPrime, true);
   });
   it("should return true if the number is an integer", function () {
-    assert.equal(n.integer, true);
+    assert.equal(n.isInteger, true);
   });
 });
 
 describe("factors", function () {
   it("should return an array of factors of the number", function () {
-    assert.deepEqual(n.factors, [1,29]);
+    assert.deepEqual(n.factors, [1, 29]);
   });
 });
 
 describe("digits", function () {
   it("should return an array of the digits of the number", function () {
-    assert.deepEqual(n.digits, [2,9]);
+    assert.deepEqual(n.digits, [2, 9]);
   });
 });
 
@@ -102,20 +108,20 @@ describe("ordinalize", function () {
 
 describe("upto", function () {
   it("should return an array of the numbers from the number up to and including the number provided as an argument", function () {
-    assert.deepEqual(n.upto(35), [29,30,31,32,33,34,35]);
+    assert.deepEqual(n.upto(35), [29, 30, 31, 32, 33, 34, 35]);
   });
 });
 
 describe("times", function () {
   it("should perform a funtion the given number of times", function () {
-    let count = 0
-    n.times(() => count ++)
+    let count = 0;
+    n.times(() => count++);
     assert.equal(count, n);
   });
 
   it("should perform a funtion the given number of times and pass the iterator step value each time", function () {
-    let count = 0
-    n.times(i => count += i)
+    let count = 0;
+    n.times((i) => (count += i));
     assert.equal(count, 406);
   });
 });
@@ -125,16 +131,16 @@ describe("mod and divmod", function () {
     assert.equal(n.mod(5), 4);
   });
   it("should return an array containing the integer part of the result of dividing by the argument provided and the remainder", function () {
-    assert.deepEqual(n.divmod(5), [5,4]);
+    assert.deepEqual(n.divmod(5), [5, 4]);
   });
 });
 
-describe("between", function () {
+describe("isBetween", function () {
   it("should return true if the number is between the two numbers provided as arguments", function () {
-    assert.equal(n.between(20,30), true);
+    assert.equal(n.isBetween(20, 30), true);
   });
   it("should return false if the number is not between the two numbers provided as arguments", function () {
-    assert.equal(n.between(30,40), false);
+    assert.equal(n.isBetween(30, 40), false);
   });
 });
 
@@ -147,3 +153,97 @@ describe("square and cubed", function () {
   });
 });
 
+describe("gcd and lcm", function () {
+  it("should return the greatest common divisor", function () {
+    assert.equal((12).gcd(8), 4);
+    assert.equal((17).gcd(13), 1);
+  });
+  it("should return the least common multiple", function () {
+    assert.equal((12).lcm(8), 24);
+    assert.equal((5).lcm(7), 35);
+  });
+});
+
+describe("factors edge cases", function () {
+  it("should return factors of 1", function () {
+    assert.deepEqual((1).factors, [1]);
+  });
+  it("should return factors of a negative number", function () {
+    assert.deepEqual((-12).factors, [1, 2, 3, 4, 6, 12]);
+  });
+});
+
+describe("digits edge cases", function () {
+  it("should return [0] for 0", function () {
+    assert.deepEqual((0).digits, [0]);
+  });
+  it("should return digits for a negative number", function () {
+    assert.deepEqual((-123).digits, [1, 2, 3]);
+  });
+});
+
+describe("isPrime edge cases", function () {
+  it("should return false for numbers less than 2", function () {
+    assert.equal((0).isPrime, false);
+    assert.equal((1).isPrime, false);
+  });
+  it("should return true for 2", function () {
+    assert.equal((2).isPrime, true);
+  });
+  it("should return false for composite numbers", function () {
+    assert.equal((9).isPrime, false);
+  });
+});
+
+describe("upto edge cases", function () {
+  it("should return empty array if start is greater than end", function () {
+    assert.deepEqual((5).upto(2), []);
+  });
+  it("should return an array with a single number if start equals end", function () {
+    assert.deepEqual((3).upto(3), [3]);
+  });
+});
+
+describe("times edge cases", function () {
+  it("should not call the function if number is 0", function () {
+    let count = 0;
+    (0).times(() => count++);
+    assert.equal(count, 0);
+  });
+  it("should pass 0-based index each time", function () {
+    const seen = [];
+    (3).times((i) => seen.push(i));
+    assert.deepEqual(seen, [0, 1, 2]);
+  });
+});
+
+describe("isBetween edge cases", function () {
+  it("should return true if number equals the lower bound", function () {
+    assert.equal((5).isBetween(5, 10), true);
+  });
+  it("should return true if number equals the upper bound", function () {
+    assert.equal((10).isBetween(5, 10), true);
+  });
+  it("should return false if number is outside range", function () {
+    assert.equal((11).isBetween(5, 10), false);
+  });
+});
+
+describe("rounding edge cases", function () {
+  it("should handle negative decimals correctly", function () {
+    assert.equal((-2.7).ceil, -2);
+    assert.equal((-2.7).floor, -3);
+    assert.equal((-2.5).round, -3);
+  });
+});
+
+describe("abs returns the absolute value of positive and negative numbers", function () {
+  it("should keep positive integers and decimals unchanged", function () {
+    assert.equal((2).abs, 2);
+    assert.equal((2.7).abs, 2.7);
+  });
+  it("should make negative integers and decimals positive", function () {
+    assert.equal((-2).abs, 2);
+    assert.equal((-2.7).abs, 2.7);
+  });
+});

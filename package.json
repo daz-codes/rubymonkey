@@ -1,7 +1,7 @@
 {
-  "name": "rubydoo",
-  "version": "0.7.0",
-  "description": "Monkey patching JavaScript to make it Ruby Dooby Doo!",
+  "name": "rubymonkey",
+  "version": "1.0.0",
+  "description": "Monkey patching JavaScript to make it more Ruby!",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -25,7 +25,7 @@
   "author": "DAZ <darren.jones@hey.com>",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/daz4126/rubydoobydoo/issues"
+    "url": "https://github.com/daz-codes/rubymonkey/issues"
   },
-  "homepage": "https://github.com/daz4126/rubydoobydoo#readme"
+  "homepage": "https://github.com/daz-codes/rubymonkey#readme"
 }

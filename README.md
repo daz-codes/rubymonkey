@@ -1,36 +1,37 @@
-# Ruby Doo
+# Ruby Monkey
 
-Making JS do more Ruby.
+*Unashamedly monkey patching JavaScript to be more like Ruby.*
 
-Unashamedly monkey patching JS numbers, strings, arrays, objects and dates with Ruby and Rails-like methods.
+<img width="250" height="250" alt="ruby monkey" src="https://github.com/user-attachments/assets/cee09e69-6617-415b-ab66-7880032c3b63" />
 
 Ruby (and Rails) has loads of really nice methods, now you can use them in JS as well!
 
-Write code like:
+Ruby Monkey helps to make your JavaScript code more code elegant, fun and productive!
+
+Now you can write JS code like this:
 
 ```javascript
 [1,2,3].last // 3
 [1,2,3].count // 3
 (21).ordinalize // "21st"
-"Rubydoobydoo".downcase.reverse // "oodyboodybur"
+"RubyMonkey".downcase.reverse // "yeknomybur"
 [1,2,3].sum.squared // 36
 ["A","A","C","A","B","A","B"].tally // {"A": 4, "C": 1, "B": 2}
 (1).day.ago // yesterday
 ```
-## Ruby Dooby Doo!
 
 ## Usage
 
 ```bash
-npm install rubydoo
+npm install rubymonkey
 ```
 
-Then just add either `require "rubydoo"` or `import "rubydoo"` to the top of any JS file and suddenly coding in JS becomes a lot more fun and productive!
+Then just add either `require "rubymonkey"` or `import "rubymonkey"` to the top of any JS file and suddenly coding in JS becomes a lot more fun and productive!
 
 In general, if you know the Ruby methods you should be able to use them in almost the same way, with a few slight changes:
 
 * Blocks change to arrow functions
-* JavaScript does not support appending symbols to the end of function names, so Boolean methods can't end in a `?`, so these have `is` prepended to them.
+* JavaScript does not support appending symbols to the end of function names, so Boolean methods can't end in a `?`, so these have 2 versions, one without the `?` at the end and another with `is` prepended to the beginning.
 
 So for example, this Ruby:
 
@@ -38,13 +39,18 @@ So for example, this Ruby:
 [1,2,3].count{ |n| n.odd? }
 ```
 
-Would be written in JavaScript as:
+Would be written in Ruby Monkey as either of the following:
 
 ```javascript
 [1,2,3].count( n => n.isOdd )
 ```
 
-## Temple to Func
+
+```javascript
+[1,2,3].count( n => n.odd )
+```
+
+## Template to Func
 
 Ruby has this really nice syntax to make calling methods on objects easier, so instead of `[1,2,3].map { |n| n.next }` you can just write `[1,2,3].map(&:next)`
 
@@ -56,7 +62,7 @@ JavaScript doesn't let you use `&` and doesn't have symbol literals, but you can
 
 # Number Methods
 
-## `number.even`
+## `number.even` & `number.isEven`
 
 Checks if the number is even.
 
@@ -65,7 +71,7 @@ Checks if the number is even.
 (5).even;  // false
 ```
 
-## `number.odd`
+## `number.odd` & `number.isOdd`
 
 Checks if the number is odd.
 
@@ -140,7 +146,7 @@ Checks if the number is prime.
 (9).prime;  // false
 ```
 
-## `number.integer`
+## `number.integer` and `number.isInteger`
 
 Checks if the number is an integer.
 
@@ -149,7 +155,7 @@ Checks if the number is an integer.
 (10).integer;    // true
 ```
 
-## `number.positive`
+## `number.positive` & `number.isPositive`
 
 Checks if the number is positive.
 
@@ -158,7 +164,7 @@ Checks if the number is positive.
 (-3).positive;  // false
 ```
 
-## `number.negative`
+## `number.negative` & `number.isNegative`
 
 Checks if the number is negative.
 
@@ -167,7 +173,7 @@ Checks if the number is negative.
 (5).negative;    // false
 ```
 
-## `number.zero`
+## `number.zero` & `number.isZero`
 
 Checks if the number is zero.
 
@@ -272,7 +278,7 @@ Computes the least common multiple (LCM) of the number and n.
 (4).lcm(6);  // 12
 ```
 
-## `number.between(a, b)`
+## `number.between(a, b)` & `number.isBetween(a,b)`
 
 Checks if the number is between a and b (inclusive).
 
@@ -281,7 +287,44 @@ Checks if the number is between a and b (inclusive).
 (15).between(1, 10); // false
 ```
 
-# String Mehtods
+## `number.eql(n)`
+
+Checks if the number is strictly equal to n.
+
+```javascript
+(5).eql(5); // true
+(5).eql(3); // false
+```
+
+## `number.multiple_of(n)` & `number.divisble_by(n)`
+
+Checks if the number is a multiple of `n`.
+
+```javascript
+(10).multiple_of(5);   // true
+(10).multiple_of(3);   // false
+```
+
+```javascript
+(10).divisible_by(5);  // true
+(10).divisible_by(3);  // false
+```
+
+## `number.divisor_of(n)` & `number.factor_of(n)`
+
+Checks if the number is a divisor (factor) of `n`.
+
+```javascript
+(5).divisor_of(10); // true
+(3).divisor_of(10); // false
+```
+
+```javascript
+(5).factor_of(10);  // true
+(3).factor_of(10);  // false
+```
+
+# String Methods
 
 ## `string.reverse`
 
@@ -421,20 +464,43 @@ Checks if the string ends with the given substring.
 "hello world".ends_with("world");  // true
 ```
 
-## `string.first(n)`
-Returns the first n characters of the string. If n is omitted, returns the first character.
+## `string.first`
+Returns the first character of the string.
+
+```javascript
+"hello".first;   // "h"
+```
+
+## `string.first_(n)`
+Returns the first n characters of the string.
 
 ```javascript
 "hello".first(2);  // "he"
-"hello".first();   // "h"
+"hello".first(5);   // "hello"
 ```
 
-## `string.last(n)`
+## `string.last`
+Returns the last character of the string.
+
+```javascript
+"hello".last;   // "o"
+```
+
+## `string.last_(n)`
 Returns the last n characters of the string. If n is omitted, returns the last character.
 
 ```javascript
-"hello".last(2);  // "lo"
-"hello".last();   // "o"
+"hello".last_(2);  // "lo"
+"hello".last_(5);   // "hello"
+```
+
+## `string.eql(str)`
+
+Checks if the string is strictly equal to str.
+
+```javascript
+("hello").eql("hello"); // true
+("Hello!").eql("hello"); // false
 ```
 
 # Array Methods
@@ -673,6 +739,68 @@ Returns a merged array without duplicates.
 
 ```javascript
 [1, 2].union([2, 3], [3, 4]); // [1, 2, 3, 4]
+
+## `array.dig(...indices)`
+
+Safely retrieves a nested value using a sequence of keys or indexes.
+
+Returns undefined if any step in the chain is missing.
+
+```javascript
+[ { a: { b: 10 } } ].dig(0, "a", "b"); // 10
+[ { a: {} } ].dig(0, "a", "c"); // undefined
+```
+
+### `array.eql(arr)`
+
+Deep-compares two arrays for equality.
+
+Uses an element’s custom .eql method if present, otherwise strict equality (===).
+
+```javascript
+[1, 2, 3].eql([1, 2, 3]); // true
+[1, 2, 3].eql([1, 2, "3"]); // false
+```
+
+### `array.filter_map(func)`
+
+Maps the array with func and removes null/undefined values (.compact).
+
+```javascript
+[1, 2, 3].filter_map(n => (n % 2 === 0 ? n * 2 : null)); 
+// [4]
+```
+
+### `array.each_with_object(obj, func)`
+
+Iterates over the array and yields each element with the provided object.
+
+```javascript
+const acc = [];
+[1, 2, 3].each_with_object(acc, (n, arr) => arr.push(n * 2));
+acc; // [2, 4, 6]
+```
+
+### `array.first_(n)`
+
+Returns the first n elements of the array.
+
+If n < 1, returns an empty array.
+
+```javascript
+[1, 2, 3].first_(2);   // [1,2]
+[1, 2, 3].first_(3);  // [1, 2, 3]
+```
+
+### `array.last_(n)`
+
+Returns the last n elements of the array.
+
+If n < 1, returns an empty array.
+
+```javascript
+[1, 2, 3].last_(2);   // [2, 3]
+[1, 2, 3].last_(3);  // [1, 2, 3]
 ```
 
 ## Aliases
@@ -752,14 +880,6 @@ Returns a new object with null and undefined values removed.
 
 ## Methods
 
-## `object.map(func)`
-
-Applies a function to each [key, value] pair and returns an array of results.
-
-```javascript
-({ a: 1, b: 2 }).map(([k, v]) => [k, v * 2]);  // [["a", 2], ["b", 4]]
-```
-
 ## `object.select(func)`
 
 Returns a new object with key-value pairs where func(key, value) is true.
@@ -828,4 +948,265 @@ Returns a new object excluding specified keys.
 
 ```javascript
 ({ a: 1, b: 2, c: 3 }).except("b", "c");  // { a: 1 }
+```
+
+## Date Utilities Library
+
+A lightweight set of extensions for working with dates, durations, and date ranges based on the Rails helper methods.
+Includes:
+
+* DateRange — iterate or inspect ranges of dates
+* Duration — express time spans like (3).days or (2).months
+* Prototype helpers on Date for navigation, ranges, and comparisons
+* Convenience accessors like Date.today, Date.current, date.isToday
+* Iterable ranges and unit-based iteration (each_day, each_month, etc.)
+
+## DateRange
+
+### `range.includes(date)`
+
+Returns true if the date falls inside the range (inclusive).
+
+```javascript
+range.includes(Date.today); // true
+```
+
+### `range.each(callback, step = 1)`
+
+Iterates day-by-day through the range, calling the callback for each date.
+
+step controls the day increment.
+
+```javascript
+range.each(d => console.log(d));
+range.each(d => console.log(d), 2); // Every 2 days
+```
+
+### `range.each_day(callback, step = 1)`
+
+Alias for .each.
+
+Iterates through days in the range.
+
+```javascript
+range.each_day(d => console.log(d));
+```
+
+### `range.each_week(callback, step = 1)`
+
+Iterates through the range in weekly steps.
+
+```javascript
+range.each_week(d => console.log(d)); // Every 7 days
+range.each_week(d => console.log(d), 2); // Every 14 days
+```
+
+### `range.each_month(callback, step = 1)`
+
+Iterates month-to-month, preserving the original day when possible
+(and adjusting for month length differences automatically).
+
+```javascript
+range.each_month(d => console.log(d));
+```
+
+### `range.each_quarter(callback, step = 1)`
+
+Iterates in increments of 3 months.
+
+```javascript
+range.each_quarter(d => console.log(d));
+```
+
+### `range.each_year(callback, step = 1)`
+
+Iterates year-to-year through the range.
+
+```javascript
+range.each_year(d => console.log(d));
+```
+
+## Duration
+
+### `new Duration({ years, months, weeks, days, hours, minutes, seconds })`
+
+Creates a duration object.
+
+```javascript
+const d = new Duration({ days: 3, hours: 5 });
+```
+
+### `duration.ago`
+
+Shifts backward from Date.current.
+
+```javascript
+(3).days.ago; // 3 days before now
+```
+
+### `duration.since(date)`
+
+Moves forward from the given date.
+
+```javascript
+(2).weeks.since(Date.today);
+```
+
+### `duration.before(date)`
+
+Moves backward from the given date.
+
+```javascript
+(1).month.before(Date.today);
+```
+
+### `duration.after(date)`
+
+Alias for `duration.since`.
+
+```javascript
+(6).hours.after(Date.current);
+```
+
+### `duration.until(date)`
+
+Returns the date minus the duration.
+
+```javascript
+(10).days.until(Date.today);
+```
+
+### `duration.from_now`
+
+Shifts forward from Date.current.
+
+```javascript
+(30).minutes.from_now;
+```
+
+### `duration.advance_from(date)`
+
+Applies all duration components to the given date.
+
+```javascript
+new Duration({ days: 1, months: 1 }).advance_from(Date.today);
+```
+
+## Number Duration Extensions
+
+All numbers gain convenience getters for generating a Duration:
+
+```javascript
+second, seconds
+minute, minutes
+hour, hours
+day, days
+week, weeks
+month, months
+year, years
+```
+
+Example usage:
+
+```javascript
+(3).days;  // Duration { days: 3 }
+(1).year;  // Duration { years: 1 }
+(2).weeks.from_now;
+```
+
+## Date Range Helpers
+
+### `date.all_day`, `date.all_week`, `date.all_month`, `date.all_quarter`, `date.all_year`
+
+Returns a DateRange covering the full period.
+
+```javascript
+Date.today.all_week.each(d => console.log(d));
+```
+
+### `date.at_beginning_of_day`, `date.at_beginning_of_month`, ... `date.at_end_of_day`, `date.at_end_of_month`, ...
+
+Convenient accessors for the start or end of a period.
+
+```javascript
+Date.today.at_beginning_of_month;
+Date.today.at_end_of_year;
+```
+
+## Named Day Predicates
+
+```javascript
+date.isYesterday, date.isToday, date.isTomorrow
+```
+
+Checks if the date falls within the corresponding day.
+
+```javascript
+Date.today.isToday; // true
+```
+
+## Static Date Helpers
+
+```javascript
+Date.current
+```
+
+Returns the current UTC date with full time precision.
+
+```javascript
+Date.current;
+Date.today
+```
+
+Returns today's UTC date at midnight.
+
+```javascript
+Date.today;
+Date.yesterday
+Date.tomorrow
+```
+
+UTC midnight versions of today, yesterday and tomorrow.
+
+
+## Date Prototype Methods
+
+### `date.yesterday`
+
+Returns the previous day at the beginning of day.
+
+```javascript
+Date.current.yesterday;
+```
+
+### `date.tomorrow`
+
+Returns the next day at the beginning of day.
+
+```javascript
+Date.current.tomorrow;
+```
+
+### `date.days_in_month`
+
+Returns the number of days in the current month.
+
+```javascript
+new Date(Date.UTC(2024, 1, 1)).days_in_month; // 29
+```
+
+### `date.advance(duration)`
+
+Returns a new date advanced by the given duration.
+
+```javascript
+Date.today.advance({ weeks: 1 });
+```
+
+### `date.change({ year, month, day, hour, minute, second, ms })`
+
+Returns a new date with selected UTC fields replaced.
+
+```javascript
+Date.current.change({ hour: 0, minute: 0 });
 ```
