@@ -1,6 +1,6 @@
 {
   "name": "rubymonkey",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Monkey patching JavaScript to make it more Ruby!",
   "main": "index.js",
   "type": "module",
