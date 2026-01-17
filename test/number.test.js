@@ -247,3 +247,154 @@ describe("abs returns the absolute value of positive and negative numbers", func
     assert.equal((-2.7).abs, 2.7);
   });
 });
+
+describe("even and odd aliases", function () {
+  it("should return true for even numbers using even alias", function () {
+    assert.equal((4).even, true);
+    assert.equal((5).even, false);
+  });
+  it("should return true for odd numbers using odd alias", function () {
+    assert.equal((3).odd, true);
+    assert.equal((10).odd, false);
+  });
+});
+
+describe("pred", function () {
+  it("should return the predecessor of a number", function () {
+    assert.equal((10).pred, 9);
+    assert.equal((1).pred, 0);
+    assert.equal((0).pred, -1);
+  });
+});
+
+describe("integer, positive, negative, zero aliases", function () {
+  it("should work with integer alias", function () {
+    assert.equal((10).integer, true);
+    assert.equal((10.5).integer, false);
+  });
+  it("should work with positive alias", function () {
+    assert.equal((5).positive, true);
+    assert.equal((-3).positive, false);
+    assert.equal((0).positive, false);
+  });
+  it("should work with negative alias", function () {
+    assert.equal((-10).negative, true);
+    assert.equal((5).negative, false);
+    assert.equal((0).negative, false);
+  });
+  it("should work with zero alias", function () {
+    assert.equal((0).zero, true);
+    assert.equal((1).zero, false);
+  });
+});
+
+describe("downto", function () {
+  it("should return an array of numbers from the number down to the argument", function () {
+    assert.deepEqual((6).downto(3), [6, 5, 4, 3]);
+  });
+  it("should execute a function for each number when provided", function () {
+    const results = [];
+    (5).downto(3, (n) => results.push(n));
+    assert.deepEqual(results, [5, 4, 3]);
+  });
+  it("should return an empty array if start is less than end", function () {
+    assert.deepEqual((3).downto(6), []);
+  });
+  it("should return a single element array if start equals end", function () {
+    assert.deepEqual((5).downto(5), [5]);
+  });
+});
+
+describe("div", function () {
+  it("should return the integer division result", function () {
+    assert.equal((10).div(3), 3);
+    assert.equal((7).div(2), 3);
+    assert.equal((15).div(5), 3);
+  });
+});
+
+describe("modulo", function () {
+  it("should return the modulo of the number", function () {
+    assert.equal((10).modulo(3), 1);
+    assert.equal((15).modulo(5), 0);
+  });
+  it("should handle negative numbers correctly (always positive result)", function () {
+    assert.equal((-10).modulo(3), 2);
+    assert.equal((-1).modulo(3), 2);
+  });
+});
+
+describe("hcf", function () {
+  it("should return the highest common factor (alias for gcd)", function () {
+    assert.equal((48).hcf(18), 6);
+    assert.equal((12).hcf(8), 4);
+    assert.equal((17).hcf(13), 1);
+  });
+});
+
+describe("between alias", function () {
+  it("should work as an alias for isBetween", function () {
+    assert.equal((5).between(1, 10), true);
+    assert.equal((15).between(1, 10), false);
+    assert.equal((5).between(5, 10), true);
+    assert.equal((10).between(5, 10), true);
+  });
+});
+
+describe("eql", function () {
+  it("should return true if numbers are strictly equal", function () {
+    assert.equal((5).eql(5), true);
+    assert.equal((5).eql(5.0), true);
+  });
+  it("should return false if numbers are not equal", function () {
+    assert.equal((5).eql(3), false);
+    assert.equal((5).eql("5"), false);
+  });
+});
+
+describe("multiple_of and divisible_by", function () {
+  it("should return true if number is a multiple of the argument", function () {
+    assert.equal((10).multiple_of(5), true);
+    assert.equal((10).multiple_of(2), true);
+    assert.equal((10).multiple_of(3), false);
+  });
+  it("should work with divisible_by alias", function () {
+    assert.equal((10).divisible_by(5), true);
+    assert.equal((10).divisible_by(3), false);
+  });
+});
+
+describe("divisor_of and factor_of", function () {
+  it("should return true if number is a divisor of the argument", function () {
+    assert.equal((5).divisor_of(10), true);
+    assert.equal((2).divisor_of(10), true);
+    assert.equal((3).divisor_of(10), false);
+  });
+  it("should work with factor_of alias", function () {
+    assert.equal((5).factor_of(10), true);
+    assert.equal((3).factor_of(10), false);
+  });
+});
+
+describe("arithmetic methods", function () {
+  it("add should return the sum", function () {
+    assert.equal((5).add(3), 8);
+    assert.equal((10).add(-3), 7);
+  });
+  it("subtract should return the difference", function () {
+    assert.equal((10).subtract(3), 7);
+    assert.equal((5).subtract(10), -5);
+  });
+  it("minus should work as alias for subtract", function () {
+    assert.equal((10).minus(3), 7);
+    assert.equal((5).minus(10), -5);
+  });
+  it("multiply should return the product", function () {
+    assert.equal((5).multiply(3), 15);
+    assert.equal((10).multiply(0), 0);
+  });
+  it("divide should return the quotient", function () {
+    assert.equal((10).divide(2), 5);
+    assert.equal((7).divide(2), 3.5);
+  });
+});

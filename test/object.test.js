@@ -244,4 +244,28 @@ describe("Monkey patched Object methods", function () {
       assert.equal(obj.includes("z"), false);
     });
   });
+
+  describe(".eql", function () {
+    it("should return true for equal objects", function () {
+      assert.equal({ a: 1, b: 2 }.eql({ a: 1, b: 2 }), true);
+    });
+
+    it("should return false for objects with different keys", function () {
+      assert.equal({ a: 1 }.eql({ b: 1 }), false);
+    });
+
+    it("should return false for objects with different values", function () {
+      assert.equal({ a: 1 }.eql({ a: 2 }), false);
+    });
+
+    it("should return false for objects with different number of keys", function () {
+      assert.equal({ a: 1, b: 2 }.eql({ a: 1 }), false);
+    });
+
+    it("should handle nested objects with eql method", function () {
+      const nested1 = { a: { x: 1 } };
+      const nested2 = { a: { x: 1 } };
+      assert.equal(nested1.eql(nested2), true);
+    });
+  });
 });

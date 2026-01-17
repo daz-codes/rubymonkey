@@ -154,3 +154,125 @@ describe("Date prototype advance and change", function () {
     assert.equal(newDate.getUTCDate(), 10);
   });
 });
+
+describe("DateRange each_quarter and each_year", function () {
+  it("each_quarter iterates by quarter correctly", function () {
+    const start = new Date(Date.UTC(2025, 0, 15)); // Jan 15, 2025
+    const end = new Date(Date.UTC(2025, 9, 15)); // Oct 15, 2025
+    const range = new DateRange(start, end);
+    const months = [];
+    range.each_quarter((d) => months.push(d.getUTCMonth()));
+    assert.deepEqual(months, [0, 3, 6, 9]); // Jan, Apr, Jul, Oct
+  });
+
+  it("each_year iterates by year correctly", function () {
+    const start = new Date(Date.UTC(2020, 5, 15));
+    const end = new Date(Date.UTC(2025, 5, 15));
+    const range = new DateRange(start, end);
+    const years = [];
+    range.each_year((d) => years.push(d.getUTCFullYear()));
+    assert.deepEqual(years, [2020, 2021, 2022, 2023, 2024, 2025]);
+  });
+});
+
+describe("DateRange each (generic)", function () {
+  it("each iterates day by day with step", function () {
+    const start = new Date(Date.UTC(2025, 0, 1));
+    const end = new Date(Date.UTC(2025, 0, 10));
+    const range = new DateRange(start, end);
+    const days = [];
+    range.each((d) => days.push(d.getUTCDate()), 3);
+    assert.deepEqual(days, [1, 4, 7, 10]);
+  });
+});
+
+describe("Duration ago and from_now", function () {
+  it("ago returns date in the past", function () {
+    const past = (3).days.ago;
+    const expected = new Date(Date.current.getTime() - 3 * 24 * 3600000);
+    assert.equal(past.getUTCDate(), expected.getUTCDate());
+  });
+
+  it("from_now returns date in the future", function () {
+    const future = (3).days.from_now;
+    const expected = new Date(Date.current.getTime() + 3 * 24 * 3600000);
+    assert.equal(future.getUTCDate(), expected.getUTCDate());
+  });
+});
+
+describe("Duration since, before, after, until", function () {
+  const baseDate = new Date(Date.UTC(2025, 5, 15));
+
+  it("since moves forward from a date", function () {
+    const result = (10).days.since(baseDate);
+    assert.equal(result.getUTCDate(), 25);
+  });
+
+  it("after is alias for since", function () {
+    const result = (10).days.after(baseDate);
+    assert.equal(result.getUTCDate(), 25);
+  });
+
+  it("before moves backward from a date", function () {
+    const result = (10).days.before(baseDate);
+    assert.equal(result.getUTCDate(), 5);
+  });
+
+  it("until moves backward from a date", function () {
+    const result = (10).days.until(baseDate);
+    assert.equal(result.getUTCDate(), 5);
+  });
+});
+
+describe("Number duration helpers for all units", function () {
+  it("seconds and second return Duration", function () {
+    assert.equal((30).seconds.seconds, 30);
+    assert.equal((1).second.seconds, 1);
+  });
+
+  it("minutes and minute return Duration", function () {
+    assert.equal((5).minutes.minutes, 5);
+    assert.equal((1).minute.minutes, 1);
+  });
+
+  it("hours and hour return Duration", function () {
+    assert.equal((2).hours.hours, 2);
+    assert.equal((1).hour.hours, 1);
+  });
+
+  it("weeks and week return Duration", function () {
+    assert.equal((3).weeks.weeks, 3);
+    assert.equal((1).week.weeks, 1);
+  });
+
+  it("months and month return Duration", function () {
+    assert.equal((6).months.months, 6);
+    assert.equal((1).month.months, 1);
+  });
+
+  it("years and year return Duration", function () {
+    assert.equal((2).years.years, 2);
+    assert.equal((1).year.years, 1);
+  });
+});
+
+describe("Date.current", function () {
+  it("returns current UTC date with time", function () {
+    const current = Date.current;
+    const now = new Date();
+    assert.equal(current.getUTCFullYear(), now.getUTCFullYear());
+    assert.equal(current.getUTCMonth(), now.getUTCMonth());
+    assert.equal(current.getUTCDate(), now.getUTCDate());
+  });
+});
+
+describe("Date prototype days_in_month", function () {
+  it("days_in_month returns correct days", function () {
+    const jan = new Date(Date.UTC(2025, 0, 15));
+    const feb = new Date(Date.UTC(2025, 1, 15));
+    const febLeap = new Date(Date.UTC(2024, 1, 15));
+    assert.equal(jan.days_in_month, 31);
+    assert.equal(feb.days_in_month, 28);
+    assert.equal(febLeap.days_in_month, 29);
+  });
+});

@@ -229,3 +229,28 @@ describe("first_ and last_ edge cases", function () {
     assert.equal("".last_(), "");
   });
 });
+
+describe("blank and empty aliases", function () {
+  it("blank should work as alias for isBlank", function () {
+    assert.equal("".blank, true);
+    assert.equal("   ".blank, true);
+    assert.equal(str.blank, false);
+  });
+  it("empty should work as alias for isEmpty", function () {
+    assert.equal("".empty, true);
+    assert.equal("   ".empty, false);
+    assert.equal(str.empty, false);
+  });
+});
+
+describe("eql", function () {
+  it("returns true if strings are strictly equal", function () {
+    assert.equal("hello".eql("hello"), true);
+    assert.equal("".eql(""), true);
+  });
+  it("returns false if strings are not equal", function () {
+    assert.equal("Hello".eql("hello"), false);
+    assert.equal("hello".eql("world"), false);
+    assert.equal("hello".eql("hello "), false);
+  });
+});

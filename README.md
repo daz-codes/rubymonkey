@@ -324,6 +324,107 @@ Checks if the number is a divisor (factor) of `n`.
 (3).factor_of(10);  // false
 ```
 
+## `number.pred`
+
+Returns the predecessor (this - 1).
+
+```javascript
+(10).pred;  // 9
+(1).pred;   // 0
+```
+
+## `number.downto(n, func?)`
+
+Iterates from the current number down to n, calling func if provided.
+
+```javascript
+(6).downto(3, console.log);
+// Logs: 6, 5, 4, 3
+
+(6).downto(3);
+// Returns: [6, 5, 4, 3]
+```
+
+## `number.div(n)`
+
+Returns the integer division result (floor of division).
+
+```javascript
+(10).div(3);  // 3
+(7).div(2);   // 3
+```
+
+## `number.modulo(n)`
+
+Returns the modulo of the number divided by n. Alias for `mod`.
+
+```javascript
+(10).modulo(3);  // 1
+(-10).modulo(3); // 2
+```
+
+## `number.hcf(n)`
+
+Highest common factor. Alias for `gcd`.
+
+```javascript
+(48).hcf(18);  // 6
+```
+
+## `number.nonzero` & `number.isNonzero`
+
+`isNonzero` returns true if the number is not zero. `nonzero` returns the number itself if non-zero, otherwise undefined.
+
+```javascript
+(5).isNonzero;  // true
+(0).isNonzero;  // false
+(5).nonzero;    // 5
+(0).nonzero;    // undefined
+```
+
+## `number.abs`
+
+Returns the absolute value of the number.
+
+```javascript
+(-5).abs;  // 5
+(5).abs;   // 5
+```
+
+## `number.add(n)`
+
+Returns the sum of the number and n.
+
+```javascript
+(5).add(3);  // 8
+```
+
+## `number.subtract(n)` & `number.minus(n)`
+
+Returns the difference of the number and n.
+
+```javascript
+(10).subtract(3);  // 7
+(10).minus(3);     // 7
+```
+
+## `number.multiply(n)`
+
+Returns the product of the number and n.
+
+```javascript
+(5).multiply(3);  // 15
+```
+
+## `number.divide(n)`
+
+Returns the quotient of the number divided by n.
+
+```javascript
+(10).divide(2);  // 5
+(7).divide(2);   // 3.5
+```
+
 # String Methods
 
 ## `string.reverse`
@@ -501,6 +602,32 @@ Checks if the string is strictly equal to str.
 ```javascript
 ("hello").eql("hello"); // true
 ("Hello!").eql("hello"); // false
+```
+
+## `string.to_s`
+
+Returns the string itself.
+
+```javascript
+"hello".to_s;  // "hello"
+```
+
+## `string.isBlank` & `string.blank`
+
+`isBlank` and `blank` are aliases. Checks if the string is empty or contains only whitespace.
+
+```javascript
+"   ".isBlank;  // true
+"hello".blank;  // false
+```
+
+## `string.isEmpty` & `string.empty`
+
+`isEmpty` and `empty` are aliases. Checks if the string is completely empty (not even whitespace).
+
+```javascript
+"".isEmpty;  // true
+" ".empty;   // false
 ```
 
 # Array Methods
@@ -739,6 +866,107 @@ Returns a merged array without duplicates.
 
 ```javascript
 [1, 2].union([2, 3], [3, 4]); // [1, 2, 3, 4]
+```
+
+### `array.intersection(...arrs)`
+
+Returns elements common to all arrays.
+
+```javascript
+[1, 2, 3].intersection([2, 3, 4]); // [2, 3]
+```
+
+### `array.minmax`
+
+Returns a tuple of [min, max] values in the array.
+
+```javascript
+[5, 1, 9, 3].minmax; // [1, 9]
+```
+
+### `array.multiply`
+
+Returns the product of all elements in the array.
+
+```javascript
+[1, 2, 3, 4].multiply; // 24
+```
+
+### `array.shuffle`
+
+Returns a shuffled copy of the array.
+
+```javascript
+[1, 2, 3].shuffle; // e.g., [3, 1, 2]
+```
+
+### `array.transpose`
+
+Transposes a 2D array (swaps rows and columns).
+
+```javascript
+[[1, 2], [3, 4]].transpose; // [[1, 3], [2, 4]]
+```
+
+### `array.sort`
+
+Returns a sorted copy of the array (numeric sort).
+
+```javascript
+[3, 1, 2].sort; // [1, 2, 3]
+```
+
+### `array.flatten`
+
+Flattens nested arrays by one level.
+
+```javascript
+[[1, 2], [3, [4, 5]]].flatten; // [1, 2, 3, [4, 5]]
+```
+
+### `array.drop(n)`
+
+Alias for `slice(n)`. Returns elements after dropping the first n.
+
+```javascript
+[1, 2, 3, 4].drop(2); // [3, 4]
+```
+
+### `array.sort_by(func, order?)`
+
+Sorts the array by the value returned from `func`. Pass `'desc'` as the second argument to sort in descending order.
+
+```javascript
+// Sort strings by length
+["apple", "fig", "banana"].sort_by(s => s.length);
+// ["fig", "apple", "banana"]
+
+// Sort strings by length descending
+["apple", "fig", "banana"].sort_by(s => s.length, 'desc');
+// ["banana", "apple", "fig"]
+
+// Sort strings by last character
+["apple", "banana", "cherry"].sort_by(s => s.last);
+// ["banana", "apple", "cherry"]
+
+// Sort objects by property
+const users = [
+  { name: "Charlie", age: 35 },
+  { name: "Alice", age: 30 },
+  { name: "Bob", age: 25 }
+];
+users.sort_by(u => u.age);
+// [{ name: "Bob", age: 25 }, { name: "Alice", age: 30 }, { name: "Charlie", age: 35 }]
+
+// Sort by computed value descending
+const products = [
+  { name: "Widget", price: 25, quantity: 10 },
+  { name: "Gadget", price: 50, quantity: 3 },
+  { name: "Gizmo", price: 15, quantity: 20 }
+];
+products.sort_by(p => p.price * p.quantity, 'desc');
+// [Gizmo (300), Widget (250), Gadget (150)]
+```
 
 ## `array.dig(...indices)`
 
@@ -818,6 +1046,12 @@ If n < 1, returns an empty array.
 `inject → reduce`
 
 `delete_if → reject`
+
+`flat_map → flatMap`
+
+`drop → slice`
+
+`empty → isEmpty`
 
 # Object Methods
 
@@ -949,6 +1183,99 @@ Returns a new object excluding specified keys.
 ```javascript
 ({ a: 1, b: 2, c: 3 }).except("b", "c");  // { a: 1 }
 ```
+
+## `object.transform_keys(func)`
+
+Returns a new object with keys transformed by func.
+
+```javascript
+({ a: 1, b: 2 }).transform_keys(k => k.toUpperCase());  // { A: 1, B: 2 }
+```
+
+## `object.transform_values(func)`
+
+Returns a new object with values transformed by func.
+
+```javascript
+({ a: 1, b: 2 }).transform_values(v => v * 10);  // { a: 10, b: 20 }
+```
+
+## `object.dig(...keys)`
+
+Safely retrieves a nested value using a sequence of keys.
+
+```javascript
+({ a: { b: { c: 42 } } }).dig("a", "b", "c");  // 42
+({ a: {} }).dig("a", "x");  // undefined
+```
+
+## `object.each(func)`
+
+Iterates over each [key, value] entry, calling func.
+
+```javascript
+({ a: 1, b: 2 }).each(([k, v]) => console.log(k, v));
+// Logs: "a" 1, "b" 2
+```
+
+## `object.each_key(func)`
+
+Iterates over each key, calling func.
+
+```javascript
+({ a: 1, b: 2 }).each_key(k => console.log(k));
+// Logs: "a", "b"
+```
+
+## `object.each_value(func)`
+
+Iterates over each value, calling func.
+
+```javascript
+({ a: 1, b: 2 }).each_value(v => console.log(v));
+// Logs: 1, 2
+```
+
+## `object.fetch(key)`
+
+Returns the value for the given key.
+
+```javascript
+({ a: 1, b: 2 }).fetch("a");  // 1
+```
+
+## `object.fetch_values(...keys)`
+
+Returns an array of values for the given keys.
+
+```javascript
+({ a: 1, b: 2, c: 3 }).fetch_values("a", "c");  // [1, 3]
+```
+
+## `object.eql(obj)`
+
+Deep equality check between objects.
+
+```javascript
+({ a: 1, b: 2 }).eql({ a: 1, b: 2 });  // true
+({ a: 1 }).eql({ a: "1" });  // false
+```
+
+## `object.to_s`
+
+Returns a string representation of the object.
+
+```javascript
+({ a: 1, b: 2 }).to_s;  // "{ a: 1, b: 2 }"
+```
+
+## Aliases
+
+`each_pair → each`
+
+`filter → select`
+
+`includes → has_key`
 
 ## Date Utilities Library
 

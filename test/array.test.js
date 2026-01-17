@@ -558,4 +558,217 @@ describe("aliases", () => {
       true,
     );
   });
+  it("select should behave like filter", () => {
+    assert.deepStrictEqual(
+      [1, 2, 3, 4].select((x) => x % 2 === 0),
+      [2, 4],
+    );
+  });
+  it("each should behave like forEach", () => {
+    const results = [];
+    [1, 2, 3].each((x) => results.push(x * 2));
+    assert.deepStrictEqual(results, [2, 4, 6]);
+  });
+  it("detect should behave like find", () => {
+    assert.equal(
+      [1, 2, 3, 4].detect((x) => x > 2),
+      3,
+    );
+  });
+  it("inject should behave like reduce", () => {
+    assert.equal(
+      [1, 2, 3, 4].inject((acc, x) => acc + x, 0),
+      10,
+    );
+  });
+  it("flat_map should behave like flatMap", () => {
+    assert.deepStrictEqual(
+      [1, 2, 3].flat_map((x) => [x, x * 2]),
+      [1, 2, 2, 4, 3, 6],
+    );
+  });
+  it("drop should behave like slice", () => {
+    assert.deepStrictEqual([1, 2, 3, 4, 5].drop(2), [3, 4, 5]);
+  });
+});
+
+describe("sort_by", () => {
+  it("should sort strings by length ascending", () => {
+    assert.deepStrictEqual(
+      ["apple", "fig", "banana"].sort_by((s) => s.length),
+      ["fig", "apple", "banana"],
+    );
+  });
+
+  it("should sort strings by length descending", () => {
+    assert.deepStrictEqual(
+      ["apple", "fig", "banana"].sort_by((s) => s.length, "desc"),
+      ["banana", "apple", "fig"],
+    );
+  });
+
+  it("should sort strings by last character", () => {
+    assert.deepStrictEqual(
+      ["apple", "banana", "cherry"].sort_by((s) => s.last),
+      ["banana", "apple", "cherry"],
+    );
+  });
+
+  it("should sort objects by property", () => {
+    const users = [
+      { name: "Charlie", age: 35 },
+      { name: "Alice", age: 30 },
+      { name: "Bob", age: 25 },
+    ];
+    const sorted = users.sort_by((u) => u.age);
+    assert.deepStrictEqual(sorted.pluck("name"), ["Bob", "Alice", "Charlie"]);
+  });
+
+  it("should sort objects by property descending", () => {
+    const users = [
+      { name: "Charlie", score: 78 },
+      { name: "Alice", score: 85 },
+      { name: "Bob", score: 92 },
+    ];
+    const sorted = users.sort_by((u) => u.score, "desc");
+    assert.deepStrictEqual(sorted.pluck("name"), ["Bob", "Alice", "Charlie"]);
+  });
+
+  it("should sort by computed values", () => {
+    const products = [
+      { name: "Widget", price: 25, quantity: 10 },
+      { name: "Gadget", price: 50, quantity: 3 },
+      { name: "Gizmo", price: 15, quantity: 20 },
+    ];
+    const sorted = products.sort_by((p) => p.price * p.quantity, "desc");
+    assert.deepStrictEqual(sorted.pluck("name"), ["Gizmo", "Widget", "Gadget"]);
+  });
+
+  it("should handle case-insensitive desc", () => {
+    assert.deepStrictEqual(
+      [1, 3, 2].sort_by((n) => n, "DESC"),
+      [3, 2, 1],
+    );
+    assert.deepStrictEqual(
+      [1, 3, 2].sort_by((n) => n, "Desc"),
+      [3, 2, 1],
+    );
+  });
+
+  it("should not modify the original array", () => {
+    const arr = [3, 1, 2];
+    arr.sort_by((n) => n);
+    assert.deepStrictEqual(arr, [3, 1, 2]);
+  });
+});
+
+describe("empty alias", () => {
+  it("should return true for empty array", () => {
+    assert.equal([].empty, true);
+  });
+  it("should return false for non-empty array", () => {
+    assert.equal([1].empty, false);
+  });
+});
+
+describe("minmax", () => {
+  it("should return [min, max] tuple", () => {
+    assert.deepStrictEqual([5, 1, 9, 3].minmax, [1, 9]);
+  });
+  it("should return undefined for empty array", () => {
+    assert.equal([].minmax, undefined);
+  });
+  it("should handle single element array", () => {
+    assert.deepStrictEqual([5].minmax, [5, 5]);
+  });
+});
+
+describe("multiply", () => {
+  it("should return the product of all elements", () => {
+    assert.equal([1, 2, 3, 4].multiply, 24);
+  });
+  it("should return 0 for array starting with 0", () => {
+    assert.equal([0, 1, 2, 3].multiply, 0);
+  });
+  it("should handle negative numbers", () => {
+    assert.equal([2, -3, 4].multiply, -24);
+  });
+});
+
+describe("flatten", () => {
+  it("should flatten nested arrays by one level", () => {
+    assert.deepStrictEqual([[1, 2], [3, 4]].flatten, [1, 2, 3, 4]);
+  });
+  it("should only flatten one level deep", () => {
+    assert.deepStrictEqual([[1, [2, 3]], [4]].flatten, [1, [2, 3], 4]);
+  });
+  it("should handle empty arrays", () => {
+    assert.deepStrictEqual([].flatten, []);
+  });
+});
+
+describe("eql", () => {
+  it("should return true for equal arrays", () => {
+    assert.equal([1, 2, 3].eql([1, 2, 3]), true);
+  });
+  it("should return false for arrays of different lengths", () => {
+    assert.equal([1, 2, 3].eql([1, 2]), false);
+  });
+  it("should return false for arrays with different elements", () => {
+    assert.equal([1, 2, 3].eql([1, 2, "3"]), false);
+  });
+  it("should handle nested arrays", () => {
+    assert.equal([[1, 2], [3]].eql([[1, 2], [3]]), true);
+  });
+});
+
+describe("filter_map", () => {
+  it("should map and filter out null/undefined values", () => {
+    assert.deepStrictEqual(
+      [1, 2, 3, 4].filter_map((n) => (n % 2 === 0 ? n * 2 : null)),
+      [4, 8],
+    );
+  });
+  it("should handle all values being filtered", () => {
+    assert.deepStrictEqual(
+      [1, 2, 3].filter_map(() => null),
+      [],
+    );
+  });
+});
+
+describe("each_with_object", () => {
+  it("should iterate with an accumulator object", () => {
+    const acc = [];
+    [1, 2, 3].each_with_object(acc, (n, arr) => arr.push(n * 2));
+    assert.deepStrictEqual(acc, [2, 4, 6]);
+  });
+  it("should work with object accumulators", () => {
+    const acc = {};
+    ["a", "b", "c"].each_with_object(acc, (char, obj) => {
+      obj[char] = char.toUpperCase();
+    });
+    assert.deepStrictEqual(acc, { a: "A", b: "B", c: "C" });
+  });
+});
+
+describe("first_ and last_", () => {
+  it("first_ should return first n elements", () => {
+    assert.deepStrictEqual([1, 2, 3, 4, 5].first_(3), [1, 2, 3]);
+  });
+  it("first_ should return empty array for n < 1", () => {
+    assert.deepStrictEqual([1, 2, 3].first_(0), []);
+    assert.deepStrictEqual([1, 2, 3].first_(-1), []);
+  });
+  it("last_ should return last n elements", () => {
+    assert.deepStrictEqual([1, 2, 3, 4, 5].last_(3), [3, 4, 5]);
+  });
+  it("last_ should return empty array for n < 1", () => {
+    assert.deepStrictEqual([1, 2, 3].last_(0), []);
+    assert.deepStrictEqual([1, 2, 3].last_(-1), []);
+  });
+  it("should return full array if n > length", () => {
+    assert.deepStrictEqual([1, 2].first_(5), [1, 2]);
+    assert.deepStrictEqual([1, 2].last_(5), [1, 2]);
+  });
 });
